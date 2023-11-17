@@ -1,9 +1,8 @@
 package xyz.nikitacartes.dimensionaltracker.mixin;
 
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.RegistryKey;
+import net.minecraft.scoreboard.Scoreboard;
+import net.minecraft.scoreboard.ServerScoreboard;
 import net.minecraft.text.MutableText;
 import net.minecraft.util.Formatting;
 import net.minecraft.world.World;
@@ -14,12 +13,8 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 import static net.minecraft.world.World.*;
 
 
-@Mixin(value = PlayerEntity.class)
-public abstract class PlayerEntityMixin extends LivingEntity {
-
-    protected PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
-        super(entityType, world);
-    }
+@Mixin(value = ServerScoreboard.class)
+public abstract class ServerScoreboardMixin {
 
     @ModifyArg(method = "getDisplayName()Lnet/minecraft/text/Text;", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;addTellClickEvent(Lnet/minecraft/text/MutableText;)Lnet/minecraft/text/MutableText;"))
     private MutableText postGetTabListDisplayName(MutableText component) {
