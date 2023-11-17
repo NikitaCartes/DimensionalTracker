@@ -2,7 +2,6 @@ package xyz.nikitacartes.dimensionaltracker.mixin;
 
 import com.mojang.authlib.GameProfile;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.registry.RegistryKey;
 import net.minecraft.scoreboard.AbstractTeam;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.MutableText;
@@ -15,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import static net.minecraft.world.World.*;
+import static xyz.nikitacartes.dimensionaltracker.DimensionalTracker.getFormatting;
 
 
 @Mixin(value = ServerPlayerEntity.class, priority = 1100)
@@ -27,7 +26,6 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity {
 
     @Inject(method = "getPlayerListName()Lnet/minecraft/text/Text;", at = @At("RETURN"), cancellable = true)
     private void postGetTabListDisplayName(CallbackInfoReturnable<Text> cir) {
-
         AbstractTeam team = this.getScoreboardTeam();
         if (team != null) {
             if (team.getColor() != null) {
@@ -37,13 +35,9 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity {
 
         MutableText playerName = Text.of(this.getGameProfile().getName()).copy();
 
-        RegistryKey<World> registryKey = this.getWorld().getRegistryKey();
-        if (registryKey.equals(OVERWORLD)) {
-            cir.setReturnValue(playerName.formatted(Formatting.DARK_GREEN));
-        } else if (registryKey.equals(NETHER)) {
-            cir.setReturnValue(playerName.formatted(Formatting.DARK_RED));
-        } else if (registryKey.equals(END)) {
-            cir.setReturnValue(playerName.formatted(Formatting.DARK_PURPLE));
+        Formatting formatting = getFormatting(this);
+        if (formatting != null) {
+            cir.setReturnValue(playerName.formatted(formatting));
         }
     }
 }

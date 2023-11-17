@@ -3,7 +3,6 @@ package xyz.nikitacartes.dimensionaltracker.mixin;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.registry.RegistryKey;
 import net.minecraft.text.MutableText;
 import net.minecraft.util.Formatting;
 import net.minecraft.world.World;
@@ -11,7 +10,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 
-import static net.minecraft.world.World.*;
+import static xyz.nikitacartes.dimensionaltracker.DimensionalTracker.getFormatting;
 
 
 @Mixin(value = PlayerEntity.class)
@@ -27,13 +26,9 @@ public abstract class PlayerEntityMixin extends LivingEntity {
             return component;
         }
 
-        RegistryKey<World> registryKey = this.getWorld().getRegistryKey();
-        if (registryKey.equals(OVERWORLD)) {
-            return component.formatted(Formatting.DARK_GREEN);
-        } else if (registryKey.equals(NETHER)) {
-            return component.formatted(Formatting.DARK_RED);
-        } else if (registryKey.equals(END)) {
-            return component.formatted(Formatting.DARK_PURPLE);
+        Formatting formatting = getFormatting(this);
+        if (formatting != null) {
+            return component.formatted(formatting);
         }
         return component;
     }
