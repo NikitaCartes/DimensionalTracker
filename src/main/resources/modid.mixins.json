@@ -3,7 +3,7 @@
   "package": "xyz.nikitacartes.dimensionaltracker.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "PlayerEntityMixin",
+    "MessageTypeMixin",
     "ServerPlayerEntityMixin",
     "ServerScoreboardMixin"
   ],
