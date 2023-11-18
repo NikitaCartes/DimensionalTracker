@@ -8,11 +8,11 @@
     "NikitaCartes"
   ],
   "contact": {
-    "homepage": "https://github.com/NikitaCartes/",
-    "issues": "https://discord.gg/UY4nhvUzaK"
+    "homepage": "https://github.com/NikitaCartes/DimensionalTracker",
+    "issues": "https://github.com/NikitaCartes/DimensionalTracker"
   },
   "license": "MIT",
-  "environment": "*",
+  "environment": "server",
   "entrypoints": {
     "main": [
       "xyz.nikitacartes.dimensionaltracker.DimensionalTracker"

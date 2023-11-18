@@ -4,6 +4,7 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.entity.event.v1.ServerEntityWorldChangeEvents;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.scoreboard.Team;
@@ -11,19 +12,49 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Formatting;
 
+import java.util.LinkedHashSet;
+
 public class DimensionalTracker implements ModInitializer {
 
     private static Team overworldTeam;
     private static Team netherTeam;
     private static Team endTeam;
+    public static LinkedHashSet<String> playerCache = new LinkedHashSet<>();
 
     @Override
     public void onInitialize() {
         ServerLifecycleEvents.SERVER_STARTED.register(this::onServerStarted);
+        ServerTickEvents.END_SERVER_TICK.register(this::onServerTick);
+        ServerLifecycleEvents.SERVER_STOPPED.register(this::onServerStopped);
 
-        ServerPlayConnectionEvents.JOIN.register((netHandler, packetSender, server) -> joinTeam(netHandler.getPlayer(), server));
-        ServerPlayerEvents.AFTER_RESPAWN.register((oldPlayer, newPlayer, alive) -> joinTeam(newPlayer, newPlayer.getServer()));
-        ServerEntityWorldChangeEvents.AFTER_PLAYER_CHANGE_WORLD.register((player, fromWorld, toWorld) -> joinTeam(player, player.getServer()));
+        ServerPlayConnectionEvents.JOIN.register((netHandler, packetSender, server) -> playerCache.add(netHandler.getPlayer().getEntityName()));
+        ServerPlayerEvents.AFTER_RESPAWN.register((oldPlayer, newPlayer, alive) -> playerCache.add(newPlayer.getEntityName()));
+        ServerEntityWorldChangeEvents.AFTER_PLAYER_CHANGE_WORLD.register((player, fromWorld, toWorld) -> playerCache.add(player.getEntityName()));
+    }
+
+    private void onServerTick(MinecraftServer server) {
+        if (playerCache.isEmpty()) {
+            return;
+        }
+        playerCache.forEach(playerName -> {
+            ServerPlayerEntity player = server.getPlayerManager().getPlayer(playerName);
+            if (player != null) {
+                if (server.getScoreboard().getTeam(player.getEntityName()) == null) {
+                    switch (player.getServerWorld().getRegistryKey().getValue().toString()) {
+                        case "minecraft:overworld":
+                            server.getScoreboard().addPlayerToTeam(player.getEntityName(), overworldTeam);
+                            break;
+                        case "minecraft:the_nether":
+                            server.getScoreboard().addPlayerToTeam(player.getEntityName(), netherTeam);
+                            break;
+                        case "minecraft:the_end":
+                            server.getScoreboard().addPlayerToTeam(player.getEntityName(), endTeam);
+                            break;
+                    }
+                }
+            }
+        });
+        playerCache.clear();
     }
 
     private void onServerStarted(MinecraftServer minecraftServer) {
@@ -45,18 +76,11 @@ public class DimensionalTracker implements ModInitializer {
         }
     }
 
-    public static void joinTeam(ServerPlayerEntity player, MinecraftServer server) {
-        switch (player.getServerWorld().getRegistryKey().getValue().toString()) {
-            case "minecraft:overworld":
-                server.getScoreboard().addPlayerToTeam(player.getEntityName(), overworldTeam);
-                break;
-            case "minecraft:the_nether":
-                server.getScoreboard().addPlayerToTeam(player.getEntityName(), netherTeam);
-                break;
-            case "minecraft:the_end":
-                server.getScoreboard().addPlayerToTeam(player.getEntityName(), endTeam);
-                break;
-        }
+    private void onServerStopped(MinecraftServer server) {
+        Scoreboard scoreboard = server.getScoreboard();
+        scoreboard.removeTeam(overworldTeam);
+        scoreboard.removeTeam(netherTeam);
+        scoreboard.removeTeam(endTeam);
     }
 
 }
