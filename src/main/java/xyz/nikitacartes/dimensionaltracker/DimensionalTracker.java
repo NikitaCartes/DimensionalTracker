@@ -13,9 +13,9 @@ import net.minecraft.util.Formatting;
 
 public class DimensionalTracker implements ModInitializer {
 
-    private Team overworldTeam;
-    private Team netherTeam;
-    private Team endTeam;
+    private static Team overworldTeam;
+    private static Team netherTeam;
+    private static Team endTeam;
 
     @Override
     public void onInitialize() {
@@ -45,7 +45,7 @@ public class DimensionalTracker implements ModInitializer {
         }
     }
 
-    private void joinTeam(ServerPlayerEntity player, MinecraftServer server) {
+    public static void joinTeam(ServerPlayerEntity player, MinecraftServer server) {
         switch (player.getServerWorld().getRegistryKey().getValue().toString()) {
             case "minecraft:overworld":
                 server.getScoreboard().addPlayerToTeam(player.getEntityName(), overworldTeam);

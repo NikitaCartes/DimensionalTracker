@@ -3,7 +3,7 @@
   "id": "dimensional-tracker",
   "version": "${version}",
   "name": "Dimensional Tracker",
-  "description": "Colour nicknames in tab depending on the player's dimension",
+  "description": "Colour nicknames depending on the player's dimension",
   "authors": [
     "NikitaCartes"
   ],
@@ -23,7 +23,7 @@
   ],
   "depends": {
     "fabricloader": ">=0.14.22",
-    "minecraft": "~1.20.2",
+    "minecraft": ">=1.20",
     "java": ">=17",
     "fabric-api": "*"
   }

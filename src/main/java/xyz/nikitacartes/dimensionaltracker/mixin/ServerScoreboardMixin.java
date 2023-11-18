@@ -1,35 +1,30 @@
 package xyz.nikitacartes.dimensionaltracker.mixin;
 
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.scoreboard.ServerScoreboard;
-import net.minecraft.text.MutableText;
-import net.minecraft.util.Formatting;
-import net.minecraft.world.World;
+import net.minecraft.scoreboard.Team;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.network.ServerPlayerEntity;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.ModifyArg;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import static net.minecraft.world.World.*;
-
+import static xyz.nikitacartes.dimensionaltracker.DimensionalTracker.joinTeam;
 
 @Mixin(value = ServerScoreboard.class)
-public abstract class ServerScoreboardMixin {
+public class ServerScoreboardMixin {
 
-    @ModifyArg(method = "getDisplayName()Lnet/minecraft/text/Text;", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;addTellClickEvent(Lnet/minecraft/text/MutableText;)Lnet/minecraft/text/MutableText;"))
-    private MutableText postGetTabListDisplayName(MutableText component) {
-        if (component.getStyle().getColor() != null) {
-            return component;
-        }
+    @Shadow
+    @Final
+    private MinecraftServer server;
 
-        RegistryKey<World> registryKey = this.getWorld().getRegistryKey();
-        if (registryKey.equals(OVERWORLD)) {
-            return component.formatted(Formatting.DARK_GREEN);
-        } else if (registryKey.equals(NETHER)) {
-            return component.formatted(Formatting.DARK_RED);
-        } else if (registryKey.equals(END)) {
-            return component.formatted(Formatting.DARK_PURPLE);
+    @Inject(method = "removePlayerFromTeam(Ljava/lang/String;Lnet/minecraft/scoreboard/Team;)V", at = @At("RETURN"))
+    private void removePlayerFromTeam(String playerName, Team team, CallbackInfo ci) {
+        ServerPlayerEntity player = this.server.getPlayerManager().getPlayer(playerName);
+        if (player != null) {
+            joinTeam(player, this.server);
         }
-        return component;
     }
 }
