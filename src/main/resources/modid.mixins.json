@@ -3,7 +3,7 @@
   "package": "xyz.nikitacartes.dimensionaltracker.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "TeamS2CPacketMixin"
+    "ScoreboardMixin"
   ],
   "injectors": {
     "defaultRequire": 1

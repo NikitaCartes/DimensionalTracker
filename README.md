@@ -1,9 +1,17 @@
-# Fabric Example Mod
+## Dimensional Tracker
 
-## Setup
+Fabric mod that color nicknames based on their dimension.  
+Compatible with VT AFK Display and [Sessility](https://modrinth.com/mod/sessility) Mod.
 
-For setup instructions please see the [fabric wiki page](https://fabricmc.net/wiki/tutorial:setup) that relates to the IDE that you are using.
+Green = Overworld  
+Red = Nether  
+Purple = End  
 
-## License
+This mod utilizes vanilla scoreboard teams to color nicknames.  
+To opt-out of detection you can join any other team.
 
-This template is available under the CC0 license. Feel free to learn from it and incorporate it in your own projects.
+[CurseForge](https://www.curseforge.com/minecraft/mc-mods/easyauth), [Modrinth](https://modrinth.com/mod/dimensionaltracker)
+
+[Discord](https://discord.gg/UY4nhvUzaK)
+
+![image.webp](image.webp)

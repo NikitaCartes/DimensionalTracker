@@ -16,9 +16,9 @@ import java.util.LinkedHashSet;
 
 public class DimensionalTracker implements ModInitializer {
 
-    private static Team overworldTeam;
-    private static Team netherTeam;
-    private static Team endTeam;
+    private Team overworldTeam;
+    private Team netherTeam;
+    private Team endTeam;
     public static LinkedHashSet<String> playerCache = new LinkedHashSet<>();
 
     @Override
@@ -59,19 +59,19 @@ public class DimensionalTracker implements ModInitializer {
 
     private void onServerStarted(MinecraftServer minecraftServer) {
         Scoreboard scoreboard = minecraftServer.getScoreboard();
-        overworldTeam = scoreboard.getTeam("dimTracker_overworld");
+        overworldTeam = scoreboard.getTeam("dimTracker.overworld");
         if (overworldTeam == null) {
-            overworldTeam = scoreboard.addTeam("dimTracker_overworld");
+            overworldTeam = scoreboard.addTeam("dimTracker.overworld");
             overworldTeam.setColor(Formatting.DARK_GREEN);
         }
-        netherTeam = scoreboard.getTeam("dimTracker_nether");
+        netherTeam = scoreboard.getTeam("dimTracker.nether");
         if (netherTeam == null) {
-            netherTeam = scoreboard.addTeam("dimTracker_nether");
+            netherTeam = scoreboard.addTeam("dimTracker.nether");
             netherTeam.setColor(Formatting.DARK_RED);
         }
-        endTeam = scoreboard.getTeam("dimTracker_end");
+        endTeam = scoreboard.getTeam("dimTracker.end");
         if (endTeam == null) {
-            endTeam = scoreboard.addTeam("dimTracker_end");
+            endTeam = scoreboard.addTeam("dimTracker.end");
             endTeam.setColor(Formatting.DARK_PURPLE);
         }
     }
