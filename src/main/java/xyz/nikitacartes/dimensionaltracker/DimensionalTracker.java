@@ -36,7 +36,9 @@ public class DimensionalTracker implements ModInitializer {
         if (playerCache.isEmpty()) {
             return;
         }
-        playerCache.forEach(playerName -> {
+        LinkedHashSet<String> temp = new LinkedHashSet<>(playerCache);
+        playerCache.clear();
+        temp.forEach(playerName -> {
             ServerPlayerEntity player = server.getPlayerManager().getPlayer(playerName);
             if (player != null) {
                 if (server.getScoreboard().getTeam(player.getEntityName()) == null) {
@@ -54,7 +56,6 @@ public class DimensionalTracker implements ModInitializer {
                 }
             }
         });
-        playerCache.clear();
     }
 
     private void onServerStarted(MinecraftServer minecraftServer) {
