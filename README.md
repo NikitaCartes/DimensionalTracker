@@ -4,11 +4,15 @@ Fabric mod that color nicknames based on their dimension.
 Compatible with VT AFK Display and [Sessility](https://modrinth.com/mod/sessility) Mod.
 
 Green = Overworld  
-Red = Nether  
-Purple = End  
+Red = The Nether  
+Purple = The End  
 
-This mod utilizes vanilla scoreboard teams to color nicknames.  
-To opt-out of detection you can join any other team.
+This mod utilizes vanilla scoreboard teams to color nicknames.
+
+## Customization  
+If you don't want to be detected, simply join a different team.  
+You can modify your team's color, add a prefix or suffix using the standard Minecraft [`/team` command](https://minecraft.wiki/w/Commands/team).  
+To add support for non-vanilla dimensions, create a team named `dimTracker.<dimension_name>`.
 
 ## [CurseForge](https://legacy.curseforge.com/minecraft/mc-mods/dimensional-tracker), [Modrinth](https://modrinth.com/mod/dimensionaltracker)
 

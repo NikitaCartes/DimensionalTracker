@@ -7,6 +7,7 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.scoreboard.Scoreboard;
+import net.minecraft.scoreboard.ServerScoreboard;
 import net.minecraft.scoreboard.Team;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -15,17 +16,12 @@ import net.minecraft.util.Formatting;
 import java.util.LinkedHashSet;
 
 public class DimensionalTracker implements ModInitializer {
-
-    private Team overworldTeam;
-    private Team netherTeam;
-    private Team endTeam;
     public static LinkedHashSet<String> playerCache = new LinkedHashSet<>();
 
     @Override
     public void onInitialize() {
         ServerLifecycleEvents.SERVER_STARTED.register(this::onServerStarted);
         ServerTickEvents.END_SERVER_TICK.register(this::onServerTick);
-        ServerLifecycleEvents.SERVER_STOPPED.register(this::onServerStopped);
 
         ServerPlayConnectionEvents.JOIN.register((netHandler, packetSender, server) -> playerCache.add(netHandler.getPlayer().getEntityName()));
         ServerPlayerEvents.AFTER_RESPAWN.register((oldPlayer, newPlayer, alive) -> playerCache.add(newPlayer.getEntityName()));
@@ -41,17 +37,12 @@ public class DimensionalTracker implements ModInitializer {
         temp.forEach(playerName -> {
             ServerPlayerEntity player = server.getPlayerManager().getPlayer(playerName);
             if (player != null) {
-                if (server.getScoreboard().getTeam(player.getEntityName()) == null) {
-                    switch (player.getServerWorld().getRegistryKey().getValue().toString()) {
-                        case "minecraft:overworld":
-                            server.getScoreboard().addPlayerToTeam(player.getEntityName(), overworldTeam);
-                            break;
-                        case "minecraft:the_nether":
-                            server.getScoreboard().addPlayerToTeam(player.getEntityName(), netherTeam);
-                            break;
-                        case "minecraft:the_end":
-                            server.getScoreboard().addPlayerToTeam(player.getEntityName(), endTeam);
-                            break;
+                ServerScoreboard scoreboard = server.getScoreboard();
+                Team playerTeam = scoreboard.getPlayerTeam(playerName);
+                if (playerTeam == null || playerTeam.getName().startsWith("dimTracker")) {
+                    Team team = server.getScoreboard().getTeam("dimTracker." + player.getServerWorld().getRegistryKey().getValue().getPath());
+                    if (team != null) {
+                        scoreboard.addPlayerToTeam(playerName, team);
                     }
                 }
             }
@@ -60,28 +51,15 @@ public class DimensionalTracker implements ModInitializer {
 
     private void onServerStarted(MinecraftServer minecraftServer) {
         Scoreboard scoreboard = minecraftServer.getScoreboard();
-        overworldTeam = scoreboard.getTeam("dimTracker.overworld");
-        if (overworldTeam == null) {
-            overworldTeam = scoreboard.addTeam("dimTracker.overworld");
-            overworldTeam.setColor(Formatting.DARK_GREEN);
+        if (scoreboard.getTeam("dimTracker.overworld") == null) {
+            scoreboard.addTeam("dimTracker.overworld").setColor(Formatting.DARK_GREEN);
         }
-        netherTeam = scoreboard.getTeam("dimTracker.nether");
-        if (netherTeam == null) {
-            netherTeam = scoreboard.addTeam("dimTracker.nether");
-            netherTeam.setColor(Formatting.DARK_RED);
+        if (scoreboard.getTeam("dimTracker.the_nether") == null) {
+            scoreboard.addTeam("dimTracker.the_nether").setColor(Formatting.DARK_RED);
         }
-        endTeam = scoreboard.getTeam("dimTracker.end");
-        if (endTeam == null) {
-            endTeam = scoreboard.addTeam("dimTracker.end");
-            endTeam.setColor(Formatting.DARK_PURPLE);
+        if (scoreboard.getTeam("dimTracker.the_end") == null) {
+            scoreboard.addTeam("dimTracker.the_end").setColor(Formatting.DARK_PURPLE);
         }
-    }
-
-    private void onServerStopped(MinecraftServer server) {
-        Scoreboard scoreboard = server.getScoreboard();
-        scoreboard.removeTeam(overworldTeam);
-        scoreboard.removeTeam(netherTeam);
-        scoreboard.removeTeam(endTeam);
     }
 
 }
