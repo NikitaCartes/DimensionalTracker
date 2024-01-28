@@ -43,6 +43,8 @@ public class DimensionalTracker implements ModInitializer {
                     Team team = server.getScoreboard().getTeam("dimTracker." + player.getServerWorld().getRegistryKey().getValue().getPath());
                     if (team != null) {
                         scoreboard.addPlayerToTeam(playerName, team);
+                    } else if (playerTeam != null) {
+                        scoreboard.removePlayerFromTeam(playerName, scoreboard.getPlayerTeam(playerName));
                     }
                 }
             }
