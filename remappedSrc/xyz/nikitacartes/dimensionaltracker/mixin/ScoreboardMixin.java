@@ -18,15 +18,15 @@ public class ScoreboardMixin {
         playerCache.addAll(team.getPlayerList());
     }
 
-    /*@Inject(method = "addScoreHolderToTeam", at = @At("HEAD"))
-    private void addDimensionTeam(String scoreHolderName, Team team, CallbackInfoReturnable<Boolean> cir) {
-        playerCache.remove(team);
-    }*/
+    @Inject(method = "addPlayerToTeam(Ljava/lang/String;Lnet/minecraft/scoreboard/Team;)Z", at = @At("HEAD"))
+    private void addDimensionTeam(String playerName, Team team, CallbackInfoReturnable<Boolean> cir) {
+        playerCache.remove(playerName);
+    }
 
-    @Inject(method = "addScoreHolderToTeam", at = @At("HEAD"))
-    private void addDimensionTeam(String scoreHolderName, Team team, CallbackInfoReturnable<Boolean> cir) {
+    @Inject(method = "removePlayerFromTeam(Ljava/lang/String;Lnet/minecraft/scoreboard/Team;)V", at = @At("HEAD"))
+    private void addDimensionTeam(String playerName, Team team, CallbackInfo ci) {
         if (!team.getName().startsWith("dimTracker")) {
-            playerCache.add(scoreHolderName);
+            playerCache.add(playerName);
         }
     }
 }
