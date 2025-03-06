@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version '1.4-SNAPSHOT'
+    id 'fabric-loom' version '1.10-SNAPSHOT'
     id 'maven-publish'
 }
 
@@ -11,6 +11,10 @@ base {
 }
 
 repositories {
+    maven {
+        url "https://maven.nucleoid.xyz/"
+        name "Nucleoid"
+    }
 }
 
 dependencies {
@@ -18,6 +22,8 @@ dependencies {
     mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+    modImplementation "eu.pb4:placeholder-api:${project.placeholder_version}"
 }
 
 processResources {
