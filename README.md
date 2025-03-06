@@ -22,9 +22,9 @@ To add support for non-vanilla dimensions, create a team named `dimTracker.<dime
 
 #### Placeholder Configuration
 Dimensional Tracker provides three placeholders:
-   - %dimensional-tracker:dimension_color%: The color of the dimension the player is in
-   - %dimensional-tracker:dimension_name%: The name of the dimension the player is in
-   - %dimensional-tracker:dimension_id%: The id of the dimension the player is in
+   - `%dimensional-tracker:dimension_color%`: The color of the dimension the player is in
+   - `%dimensional-tracker:dimension_name%`: The name of the dimension the player is in
+   - `%dimensional-tracker:dimension_id%`: The id of the dimension the player is in
 You can configure the placeholders in the config file.
 
 ## Why this mod instead of datapacks?  
