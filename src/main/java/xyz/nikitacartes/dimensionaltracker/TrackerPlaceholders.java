@@ -2,7 +2,7 @@ package xyz.nikitacartes.dimensionaltracker;
 
 import eu.pb4.placeholders.api.PlaceholderResult;
 import eu.pb4.placeholders.api.Placeholders;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.Identifier;
 
 import java.util.HashMap;
 import java.util.Properties;
@@ -43,12 +43,12 @@ public class TrackerPlaceholders {
     }
 
     public static void registerPlaceholders() {
-        Placeholders.register(
-                Identifier.of("dimensional-tracker", "dimension_color"),
+        Placeholders.registerCommon(
+                Identifier.fromNamespaceAndPath("dimensional-tracker", "dimension_color"),
                 (ctx, arg) -> {
                     if (!ctx.hasPlayer())
                         return PlaceholderResult.invalid("No player!");
-                    String dimension = ctx.player().getServerWorld().getRegistryKey().getValue().getPath();
+                    String dimension = ctx.player().level().dimension().identifier().getPath();
 
                     PlaceHoldersTags tags = placeholdersTags.get(dimension);
                     if (tags == null) {
@@ -58,12 +58,12 @@ public class TrackerPlaceholders {
                 }
         );
 
-        Placeholders.register(
-                Identifier.of("dimensional-tracker", "dimension_name"),
+        Placeholders.registerCommon(
+                Identifier.fromNamespaceAndPath("dimensional-tracker", "dimension_name"),
                 (ctx, arg) -> {
                     if (!ctx.hasPlayer())
                         return PlaceholderResult.invalid("No player!");
-                    String dimension = ctx.player().getServerWorld().getRegistryKey().getValue().getPath();
+                    String dimension = ctx.player().level().dimension().identifier().getPath();
 
                     PlaceHoldersTags tags = placeholdersTags.get(dimension);
                     if (tags == null) {
@@ -73,12 +73,12 @@ public class TrackerPlaceholders {
                 }
         );
 
-        Placeholders.register(
-                Identifier.of("dimensional-tracker", "dimension_id"),
+        Placeholders.registerCommon(
+                Identifier.fromNamespaceAndPath("dimensional-tracker", "dimension_id"),
                 (ctx, arg) -> {
                     if (!ctx.hasPlayer())
                         return PlaceholderResult.invalid("No player!");
-                    String dimension = ctx.player().getServerWorld().getRegistryKey().getValue().getPath();
+                    String dimension = ctx.player().level().dimension().identifier().getPath();
 
                     PlaceHoldersTags tags = placeholdersTags.get(dimension);
                     if (tags == null) {
