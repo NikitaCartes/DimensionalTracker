@@ -1,5 +1,7 @@
 package xyz.nikitacartes.dimensionaltracker;
 
+// eu.pb4 placeholder-api is Fabric-only, so this whole class is excluded on NeoForge.
+//? if fabric {
 import eu.pb4.placeholders.api.PlaceholderResult;
 import eu.pb4.placeholders.api.Placeholders;
 import net.minecraft.resources.Identifier;
@@ -121,3 +123,4 @@ public class TrackerPlaceholders {
     }
 
 }
+//?}

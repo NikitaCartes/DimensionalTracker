@@ -1,0 +1,52 @@
+# Central Stonecutter properties for DimensionalTracker.
+# Top-level keys apply to every node; [<loader>."<version>"] sections apply to that node only.
+# Build scripts read these via property("...") after calling properties.tags(version, loader).
+
+# Mod
+mod_name = "Dimensional Tracker"
+mod_id = "dimensionaltracker"
+mod_version = "1.5.0"
+
+# ---------------------------------------------------------------------------
+# Fabric. 26.1+ ships Mojang-mapped (build.fabric-deobf.gradle.kts).
+#   loader/fabric-api            https://fabricmc.net/develop/
+#   placeholder_version          https://maven.nucleoid.xyz/#/releases/eu/pb4/placeholder-api
+# ---------------------------------------------------------------------------
+
+[fabric."26.1"]
+minecraft_version = "26.1"
+loader_version = "0.19.3"
+fabric_version = "0.153.0+26.1.2"
+placeholder_version = "3.0.0+26.1"
+display_name = "[26.1]"
+supported_versions = "26.1,26.1.1,26.1.2"
+supported_minecraft_version = ">=26.1- <26.2"
+
+[fabric."26.2"]
+minecraft_version = "26.2"
+loader_version = "0.19.3"
+fabric_version = "0.153.0+26.2"
+placeholder_version = "3.1.0-beta.1+26.2"
+display_name = "[26.2]"
+supported_versions = "26.2"
+supported_minecraft_version = ">=26.2-"
+
+# ---------------------------------------------------------------------------
+# NeoForge (build.neoforge.gradle.kts: ModDevGradle). No placeholder feature
+# here — eu.pb4 placeholder-api is Fabric-only.
+#   neoforge_version  https://projects.neoforged.net/neoforged/neoforge
+# ---------------------------------------------------------------------------
+
+[neoforge."26.1"]
+minecraft_version = "26.1"
+neoforge_version = "26.1.2.76"
+display_name = "[NeoForge 26.1]"
+supported_versions = "26.1,26.1.1,26.1.2"
+supported_minecraft_version = "[26.1,26.2)"
+
+[neoforge."26.2"]
+minecraft_version = "26.2"
+neoforge_version = "26.2.0.7-beta"
+display_name = "[NeoForge 26.2]"
+supported_versions = "26.2"
+supported_minecraft_version = "[26.2,)"

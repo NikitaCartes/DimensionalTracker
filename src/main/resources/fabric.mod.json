@@ -23,8 +23,11 @@
   ],
   "depends": {
     "fabricloader": ">=0.16.0",
-    "minecraft": ">=26.1-",
+    "minecraft": "${supported_minecraft_version}",
     "java": ">=25",
     "fabric-api": "*"
+  },
+  "suggests": {
+    "placeholder-api": "*"
   }
 }
