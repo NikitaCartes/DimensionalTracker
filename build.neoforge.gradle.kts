@@ -4,7 +4,6 @@ plugins {
     id("me.modmuss50.mod-publish-plugin") version "0.8.4"
 }
 
-// Tag this node's loader and version so [neoforge."26.1"] keys resolve via bare property("...").
 stonecutter {
     val (version, loader) = current.project.split('-', limit = 2)
     properties.tags(version, loader)

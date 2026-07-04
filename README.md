@@ -1,9 +1,10 @@
 ## Dimensional Tracker
 
-Fabric mod that color nicknames based on their dimension.  
+Server-side Fabric and NeoForge mod that colors nicknames based on the dimension a player is in.  
 Compatible with VT AFK Display, [Sessility](https://modrinth.com/mod/sessility) Mod and [Text Placeholder API](https://modrinth.com/mod/placeholder-api)
 
-This mod utilizes vanilla scoreboard teams to color nicknames and provide optional placeholders.
+This mod utilizes vanilla scoreboard teams to color nicknames and provide optional placeholders.  
+Placeholders require [Text Placeholder API](https://modrinth.com/mod/placeholder-api) and are available on Fabric only.
 
 #### [CurseForge](https://legacy.curseforge.com/minecraft/mc-mods/dimensional-tracker), [Modrinth](https://modrinth.com/mod/dimensionaltracker), [My Discord](https://discord.gg/UY4nhvUzaK)
 
@@ -20,7 +21,7 @@ If you don't want to be detected, simply join a different team.
 You can modify your team's color, add a prefix or suffix using the standard Minecraft [`/team` command](https://minecraft.wiki/w/Commands/team).  
 To add support for non-vanilla dimensions, create a team named `dimTracker.<dimension_name>`.
 
-#### Placeholder Configuration
+#### Placeholder Configuration (Fabric only)
 Dimensional Tracker provides three placeholders:
    - `%dimensional-tracker:dimension_color%`: The color of the dimension the player is in
    - `%dimensional-tracker:dimension_name%`: The name of the dimension the player is in

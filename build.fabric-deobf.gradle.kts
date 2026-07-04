@@ -4,7 +4,6 @@ plugins {
     id("me.modmuss50.mod-publish-plugin") version "0.8.4"
 }
 
-// Tag this node's loader and version so [fabric."26.1"] keys resolve via bare property("...").
 stonecutter {
     val (version, loader) = current.project.split('-', limit = 2)
     properties.tags(version, loader)
@@ -30,7 +29,6 @@ dependencies {
     implementation("net.fabricmc:fabric-loader:${property("loader_version")}")
     implementation("net.fabricmc.fabric-api:fabric-api:${property("fabric_version")}")
 
-    // Optional integration, not bundled: Text Placeholder API.
     implementation("eu.pb4:placeholder-api:${property("placeholder_version")}")
 }
 
