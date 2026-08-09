@@ -1,7 +1,10 @@
+//~ resource_location
+//~ placeholder_register
 package xyz.nikitacartes.dimensionaltracker;
 
-// eu.pb4 placeholder-api is Fabric-only, so this whole class is excluded on NeoForge.
-//? if fabric {
+// eu.pb4 placeholder-api is Fabric-only and has no build for every Minecraft version, so
+// this whole class is excluded unless the node declares a placeholder_version.
+//? if placeholders {
 import eu.pb4.placeholders.api.PlaceholderResult;
 import eu.pb4.placeholders.api.Placeholders;
 import net.minecraft.resources.Identifier;
@@ -44,9 +47,18 @@ public class TrackerPlaceholders {
         registerPlaceholders();
     }
 
+    // The static factory arrived in 1.21; before that the constructor is public.
+    private static Identifier id(String path) {
+        //? if >=1.21 {
+        return Identifier.fromNamespaceAndPath("dimensional-tracker", path);
+        //?} else {
+        /*return new Identifier("dimensional-tracker", path);
+        *///?}
+    }
+
     public static void registerPlaceholders() {
         Placeholders.registerCommon(
-                Identifier.fromNamespaceAndPath("dimensional-tracker", "dimension_color"),
+                id("dimension_color"),
                 (ctx, arg) -> {
                     if (!ctx.hasPlayer())
                         return PlaceholderResult.invalid("No player!");
@@ -61,7 +73,7 @@ public class TrackerPlaceholders {
         );
 
         Placeholders.registerCommon(
-                Identifier.fromNamespaceAndPath("dimensional-tracker", "dimension_name"),
+                id("dimension_name"),
                 (ctx, arg) -> {
                     if (!ctx.hasPlayer())
                         return PlaceholderResult.invalid("No player!");
@@ -76,7 +88,7 @@ public class TrackerPlaceholders {
         );
 
         Placeholders.registerCommon(
-                Identifier.fromNamespaceAndPath("dimensional-tracker", "dimension_id"),
+                id("dimension_id"),
                 (ctx, arg) -> {
                     if (!ctx.hasPlayer())
                         return PlaceholderResult.invalid("No player!");

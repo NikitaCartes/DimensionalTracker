@@ -5,19 +5,50 @@
 # Mod
 mod_name = "Dimensional Tracker"
 mod_id = "dimensionaltracker"
-mod_version = "1.5.0"
+mod_version = "1.5.1"
 
 # ---------------------------------------------------------------------------
-# Fabric. 26.1+ ships Mojang-mapped (build.fabric-deobf.gradle.kts).
+# Fabric. 26.1+ ships Mojang-mapped (build.fabric-deobf.gradle.kts); older nodes remap
+# (build.fabric-obf.gradle.kts).
 #   loader/fabric-api            https://fabricmc.net/develop/
 #   placeholder_version          https://maven.nucleoid.xyz/#/releases/eu/pb4/placeholder-api
 # ---------------------------------------------------------------------------
+
+[fabric."1.20"]
+minecraft_version = "1.20"
+loader_version = "0.19.3"
+fabric_version = "0.83.0+1.20"
+placeholder_version = "2.1.1+1.20"
+java_version = "17"
+display_name = "[1.20 - 1.20.6]"
+supported_versions = "1.20,1.20.1,1.20.2,1.20.3,1.20.4,1.20.5,1.20.6"
+supported_minecraft_version = ">=1.20- <1.21"
+
+[fabric."1.21"]
+minecraft_version = "1.21"
+loader_version = "0.19.3"
+fabric_version = "0.102.0+1.21"
+placeholder_version = "2.4.2+1.21"
+java_version = "21"
+display_name = "[1.21 - 1.21.10]"
+supported_versions = "1.21,1.21.1,1.21.2,1.21.3,1.21.4,1.21.5,1.21.6,1.21.7,1.21.8,1.21.9,1.21.10"
+supported_minecraft_version = ">=1.21- <1.21.11"
+
+[fabric."1.21.11"]
+minecraft_version = "1.21.11"
+loader_version = "0.19.3"
+fabric_version = "0.141.6+1.21.11"
+java_version = "21"
+display_name = "[1.21.11]"
+supported_versions = "1.21.11"
+supported_minecraft_version = ">=1.21.11- <26.1"
 
 [fabric."26.1"]
 minecraft_version = "26.1"
 loader_version = "0.19.3"
 fabric_version = "0.153.0+26.1.2"
 placeholder_version = "3.0.0+26.1"
+java_version = "25"
 display_name = "[26.1]"
 supported_versions = "26.1,26.1.1,26.1.2"
 supported_minecraft_version = ">=26.1- <26.2"
@@ -27,19 +58,37 @@ minecraft_version = "26.2"
 loader_version = "0.19.3"
 fabric_version = "0.153.0+26.2"
 placeholder_version = "3.1.0-beta.1+26.2"
+java_version = "25"
 display_name = "[26.2]"
 supported_versions = "26.2"
 supported_minecraft_version = ">=26.2-"
 
 # ---------------------------------------------------------------------------
-# NeoForge (build.neoforge.gradle.kts: ModDevGradle). No placeholder feature
-# here — eu.pb4 placeholder-api is Fabric-only.
+# NeoForge (build.neoforge.gradle.kts: ModDevGradle). No placeholder feature here —
+# eu.pb4 placeholder-api is Fabric-only.
 #   neoforge_version  https://projects.neoforged.net/neoforged/neoforge
 # ---------------------------------------------------------------------------
+
+[neoforge."1.21"]
+minecraft_version = "1.21"
+neoforge_version = "21.0.167"
+java_version = "21"
+display_name = "[NeoForge 1.21 - 1.21.10]"
+supported_versions = "1.21,1.21.1,1.21.2,1.21.3,1.21.4,1.21.5,1.21.6,1.21.7,1.21.8,1.21.9,1.21.10"
+supported_minecraft_version = "[1.21,1.21.11)"
+
+[neoforge."1.21.11"]
+minecraft_version = "1.21.11"
+neoforge_version = "21.11.45"
+java_version = "21"
+display_name = "[NeoForge 1.21.11]"
+supported_versions = "1.21.11"
+supported_minecraft_version = "[1.21.11,26.1)"
 
 [neoforge."26.1"]
 minecraft_version = "26.1"
 neoforge_version = "26.1.2.76"
+java_version = "25"
 display_name = "[NeoForge 26.1]"
 supported_versions = "26.1,26.1.1,26.1.2"
 supported_minecraft_version = "[26.1,26.2)"
@@ -47,6 +96,7 @@ supported_minecraft_version = "[26.1,26.2)"
 [neoforge."26.2"]
 minecraft_version = "26.2"
 neoforge_version = "26.2.0.7-beta"
+java_version = "25"
 display_name = "[NeoForge 26.2]"
 supported_versions = "26.2"
 supported_minecraft_version = "[26.2,)"

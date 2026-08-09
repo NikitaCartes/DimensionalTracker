@@ -1,9 +1,14 @@
 //~ team_color
+//~ resource_location
 package xyz.nikitacartes.dimensionaltracker;
 
 //? if fabric {
 import net.fabricmc.api.ModInitializer;
+//? if >=26.1 {
 import net.fabricmc.fabric.api.entity.event.v1.ServerEntityLevelChangeEvents;
+//?} else {
+/*import net.fabricmc.fabric.api.entity.event.v1.ServerEntityWorldChangeEvents;
+*///?}
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
@@ -67,7 +72,7 @@ public class DimensionalTracker {
             e.printStackTrace();
         }
         enableTeams = Boolean.parseBoolean(properties.getProperty("enable-teams", "true"));
-        //? if fabric {
+        //? if placeholders {
         enablePlaceholders = Boolean.parseBoolean(properties.getProperty("enable-placeholders", "true")) && FabricLoader.getInstance().isModLoaded("placeholder-api");
         //?}
 
@@ -75,7 +80,7 @@ public class DimensionalTracker {
             registerTeamEvents();
         }
 
-        //? if fabric {
+        //? if placeholders {
         if (enablePlaceholders) {
             TrackerPlaceholders.loadValue(properties);
         }
@@ -88,7 +93,11 @@ public class DimensionalTracker {
         ServerTickEvents.END_SERVER_TICK.register(this::onServerTick);
         ServerPlayConnectionEvents.JOIN.register((netHandler, packetSender, server) -> playerCache.add(netHandler.getPlayer().getScoreboardName()));
         ServerPlayerEvents.AFTER_RESPAWN.register((oldPlayer, newPlayer, alive) -> playerCache.add(newPlayer.getScoreboardName()));
+        //? if >=26.1 {
         ServerEntityLevelChangeEvents.AFTER_PLAYER_CHANGE_LEVEL.register((player, fromWorld, toWorld) -> playerCache.add(player.getScoreboardName()));
+        //?} else {
+        /*ServerEntityWorldChangeEvents.AFTER_PLAYER_CHANGE_WORLD.register((player, fromWorld, toWorld) -> playerCache.add(player.getScoreboardName()));
+        *///?}
         //?} else {
         /*NeoForge.EVENT_BUS.addListener((ServerStartedEvent event) -> onServerStarted(event.getServer()));
         NeoForge.EVENT_BUS.addListener((ServerTickEvent.Post event) -> onServerTick(event.getServer()));
@@ -116,7 +125,8 @@ public class DimensionalTracker {
         LinkedHashSet<String> temp = new LinkedHashSet<>(playerCache);
         playerCache.clear();
         temp.forEach(playerName -> {
-            ServerPlayer player = server.getPlayerList().getPlayer(playerName);
+            // getPlayerByName exists in every supported version; getPlayer(String) only from 1.21.11.
+            ServerPlayer player = server.getPlayerList().getPlayerByName(playerName);
             if (player != null) {
                 ServerScoreboard scoreboard = server.getScoreboard();
                 PlayerTeam playerTeam = scoreboard.getPlayerTeam(playerName);

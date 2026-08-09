@@ -16,6 +16,19 @@ stonecutter parameters {
         replace(".setColor(ChatFormatting.DARK_RED)", ".setColor(Optional.of(TeamColor.DARK_RED))")
         replace(".setColor(ChatFormatting.DARK_PURPLE)", ".setColor(Optional.of(TeamColor.DARK_PURPLE))")
     }
+
+    // ResourceLocation became Identifier, and ResourceKey.location() became identifier(), in 1.21.11.
+    // Enabled per-file with a `//~ resource_location` header.
+    replacements.string(current.parsed >= "1.21.11", "resource_location") {
+        replace("ResourceLocation", "Identifier")
+        replace(".location()", ".identifier()")
+    }
+
+    // placeholder-api 2.x registers with Placeholders.register; 3.x (26.1+) renamed it to
+    // registerCommon. The lambda shape is the same in both.
+    replacements.string(current.parsed >= "26.1", "placeholder_register") {
+        replace("Placeholders.register(", "Placeholders.registerCommon(")
+    }
 }
 
 stonecutter.tasks {

@@ -7,6 +7,9 @@ plugins {
 stonecutter {
     val (version, loader) = current.project.split('-', limit = 2)
     properties.tags(version, loader)
+    // eu.pb4 placeholder-api has no build for every Minecraft version; nodes that omit
+    // placeholder_version compile without the integration.
+    constants["placeholders"] = findProperty("placeholder_version") != null
 }
 
 repositories {
@@ -14,13 +17,14 @@ repositories {
     maven("https://maven.nucleoid.xyz/") { name = "Nucleoid" }
 }
 
+val javaVersion = property("java_version").toString().toInt()
+
 base.archivesName = "${property("mod_id")}-fabric-mc${property("minecraft_version")}"
 version = property("mod_version").toString()
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_25
-    targetCompatibility = JavaVersion.VERSION_25
     withSourcesJar()
+    toolchain { languageVersion.set(JavaLanguageVersion.of(25)) }
 }
 
 dependencies {
@@ -29,12 +33,14 @@ dependencies {
     implementation("net.fabricmc:fabric-loader:${property("loader_version")}")
     implementation("net.fabricmc.fabric-api:fabric-api:${property("fabric_version")}")
 
-    implementation("eu.pb4:placeholder-api:${property("placeholder_version")}")
+    findProperty("placeholder_version")?.let {
+        implementation("eu.pb4:placeholder-api:$it")
+    }
 }
 
 tasks.withType<JavaCompile>().configureEach {
     options.encoding = "UTF-8"
-    options.release.set(25)
+    options.release.set(javaVersion)
 }
 
 tasks.jar {
