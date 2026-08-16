@@ -1,10 +1,7 @@
-// Minecraft up to 1.21.11 is obfuscated: this node uses the remapping Loom plugin,
-// compiles against Mojang mappings and publishes the remapped jar.
-// From 26.1 on, see build.fabric-deobf.gradle.kts.
 plugins {
     id("java")
     id("fabric-loom") version "1.17-SNAPSHOT"
-    id("me.modmuss50.mod-publish-plugin") version "0.8.4"
+    id("me.modmuss50.mod-publish-plugin") version "2.2.0"
 }
 
 stonecutter {
@@ -52,7 +49,8 @@ tasks.jar {
 
 val modExpansions = mapOf(
     "version" to project.version.toString(),
-    "supported_minecraft_version" to property("supported_minecraft_version").toString()
+    "supported_minecraft_version" to property("supported_minecraft_version").toString(),
+    "java_version" to javaVersion.toString()
 )
 
 tasks.processResources {
@@ -64,7 +62,7 @@ tasks.register<Copy>("collectJars") {
     group = "build"
     from(tasks.remapJar.map { it.archiveFile })
     into(rootProject.layout.buildDirectory.dir("libs"))
-    dependsOn("build")
+    dependsOn("build", rootProject.tasks.named("cleanCollectedJars"))
 }
 
 publishMods {
@@ -94,6 +92,7 @@ publishMods {
         targets.forEach(minecraftVersions::add)
         requires("fabric-api")
         optional("text-placeholder-api")
+        server.set(true)
     }
     github {
         accessToken = githubToken

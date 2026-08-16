@@ -1,7 +1,7 @@
 plugins {
     id("java")
     id("net.neoforged.moddev") version "2.0.141"
-    id("me.modmuss50.mod-publish-plugin") version "0.8.4"
+    id("me.modmuss50.mod-publish-plugin") version "2.2.0"
 }
 
 stonecutter {
@@ -74,7 +74,7 @@ tasks.register<Copy>("collectJars") {
     group = "build"
     from(tasks.jar.map { it.archiveFile })
     into(rootProject.layout.buildDirectory.dir("libs"))
-    dependsOn("build")
+    dependsOn("build", rootProject.tasks.named("cleanCollectedJars"))
 }
 
 publishMods {
@@ -100,6 +100,7 @@ publishMods {
         projectId = "940062"
         accessToken = curseforgeToken
         targets.forEach(minecraftVersions::add)
+        server.set(true)
     }
     // Uploads this node's jar into the single release created by the root publishGithub task.
     github {

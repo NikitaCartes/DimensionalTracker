@@ -8,8 +8,7 @@ mod_id = "dimensionaltracker"
 mod_version = "1.5.1"
 
 # ---------------------------------------------------------------------------
-# Fabric. 26.1+ ships Mojang-mapped (build.fabric-deobf.gradle.kts); older nodes remap
-# (build.fabric-obf.gradle.kts).
+# Fabric.
 #   loader/fabric-api            https://fabricmc.net/develop/
 #   placeholder_version          https://maven.nucleoid.xyz/#/releases/eu/pb4/placeholder-api
 # ---------------------------------------------------------------------------
@@ -64,8 +63,8 @@ supported_versions = "26.2"
 supported_minecraft_version = ">=26.2-"
 
 # ---------------------------------------------------------------------------
-# NeoForge (build.neoforge.gradle.kts: ModDevGradle). No placeholder feature here —
-# eu.pb4 placeholder-api is Fabric-only.
+# NeoForge (build.neoforge.gradle.kts: ModDevGradle).
+# No placeholder feature here, eu.pb4 placeholder-api is Fabric-only.
 #   neoforge_version  https://projects.neoforged.net/neoforged/neoforge
 # ---------------------------------------------------------------------------
 
@@ -79,7 +78,7 @@ supported_minecraft_version = "[1.21,1.21.11)"
 
 [neoforge."1.21.11"]
 minecraft_version = "1.21.11"
-neoforge_version = "21.11.45"
+neoforge_version = "21.11.42"
 java_version = "21"
 display_name = "[NeoForge 1.21.11]"
 supported_versions = "1.21.11"
@@ -87,7 +86,7 @@ supported_minecraft_version = "[1.21.11,26.1)"
 
 [neoforge."26.1"]
 minecraft_version = "26.1"
-neoforge_version = "26.1.2.76"
+neoforge_version = "26.1.0.19-beta"
 java_version = "25"
 display_name = "[NeoForge 26.1]"
 supported_versions = "26.1,26.1.1,26.1.2"
